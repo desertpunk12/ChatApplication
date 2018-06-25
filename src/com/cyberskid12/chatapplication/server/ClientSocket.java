@@ -36,13 +36,6 @@ public class ClientSocket extends Thread{
                 server.addMessage(m);
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
-            }finally {
-                try {
-                    socket.close();
-                    server.removeClient(this);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
             }
         }
 
@@ -51,6 +44,7 @@ public class ClientSocket extends Thread{
     public void sendMessage(Message message) throws IOException{
         outputStream.writeObject(message);
         outputStream.flush();
+        outputStream.reset();
     }
 
     public String getHostName() {

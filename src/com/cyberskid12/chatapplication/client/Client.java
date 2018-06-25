@@ -27,12 +27,12 @@ public class Client{
 
     private void actionListeners() {
         btnSendMessage.addActionListener(e -> {
-//            try {
+            try {
                 clientSocket.sendMessage(txtSendMessage.getText());
                 txtSendMessage.setText("");
-//            } catch (IOException e1) {
-//                e1.printStackTrace();
-//            }
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         });
     }
 

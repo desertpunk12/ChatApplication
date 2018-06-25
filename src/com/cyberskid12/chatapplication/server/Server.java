@@ -34,10 +34,10 @@ public class Server {
         System.out.println("Listening on port: " + port);
         while(!serverSocket.isClosed()) {
             ClientSocket cs = new ClientSocket(serverSocket.accept(),this);
+            cs.start();
             for (Message message : this.messages) {
                 cs.sendMessage(message);
             }
-            cs.start();
             sendToAll(new Message("Server",cs.getHostName() + " joined the chat!"));
             clientSockets.add(cs);
             System.out.println("Added a client with IP:" + cs.getHostName());

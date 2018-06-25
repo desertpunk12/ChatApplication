@@ -17,14 +17,12 @@ public class ClientSocket extends Thread{
     private Socket              socket;
     private ObjectOutputStream  outputStream;
     private ObjectInputStream   inputStream;
-
     private JTextArea           textMessages;
 
     public ClientSocket(String hostIP, int hostPort, JTextArea textMessages){
         this.hostIP     =   hostIP;
         this.hostPort   =   hostPort;
         this.textMessages = textMessages;
-
         try {
             socket =        new Socket(this.hostIP,this.hostPort);
             outputStream =  new ObjectOutputStream(socket.getOutputStream());
@@ -42,7 +40,6 @@ public class ClientSocket extends Thread{
             try {
                 Message message = (Message) inputStream.readObject();
                 textMessages.append(message + "\n");
-                inputStream.
             } catch (EOFException e) {
                 e.printStackTrace();
             }catch ( IOException | ClassNotFoundException e) {
@@ -55,18 +52,13 @@ public class ClientSocket extends Thread{
     public void sendMessage(Message message) throws IOException {
         outputStream.writeObject(message);
         outputStream.flush();
+        outputStream.reset();
     }
 
-    public void sendMessage(String message){
-        new Thread(() -> {
-            try {
-                Message m = new Message(myIp, message);
-                outputStream.writeObject(m);
-                outputStream.flush();
-            }catch (IOException e){
-                e.printStackTrace();
-            }
-        }).start();
-
+    public void sendMessage(String message) throws IOException {
+        Message m = new Message(myIp, message);
+        outputStream.writeObject(m);
+        outputStream.flush();
+        outputStream.reset();
     }
 }
